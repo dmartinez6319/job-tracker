@@ -123,7 +123,7 @@ def edit_company(id):
     return redirect(url_for("companies"))
 
 
-@app.route("/companies/<int:id>/delete", methods=["POST"])
+@app.route("/companies/<int:id>/delete")
 def delete_company(id):
     conn = get_db()
     cursor = conn.cursor()
