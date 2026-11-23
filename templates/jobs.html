@@ -1,0 +1,159 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Tracker</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <h1>Jobs</h1>
+
+    <div class="add-container">
+        <h3>Add New Job</h3>
+
+        <form class="add-form" action="/jobs/new" method="post">
+            <div class="input-section">
+                <label for="company">Company:</label>
+                <select id="company" name="company_id" required>
+                    <option value="">Select Company</option>
+                    {% for company in companies %}
+                        <option value="{{ company.company_id }}">
+                            {{ company.company_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-section">
+                <label for="title">Job Title:</label>
+                <input type="text" id="job_title" name="job_title" required>
+            </div>
+
+            <div class="input-section">
+                <label for="job_type">Job Type:</label>
+                <select id="job_type" name="job_type" required>
+                    {% for type in job_types %}
+                        <option value="{{ type }}">{{ type }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-section">
+                <label for="salary_min">Minimum Salary:</label>
+                <input type="number" id="salary_min" name="salary_min" min="0">
+            </div>
+
+            <div class="input-section">
+                <label for="salary_max">Maximum Salary:</label>
+                <input type="number" id="salary_max" name="salary_max" min="0">
+            </div>
+
+            <div class="input-section">
+                <label for="job_url">Job URL:</label>
+                <input type="text" id="job_url" name="job_url">
+            </div>
+
+            <div class="input-section">
+                <label for="date_posted">Posted Date:</label>
+                <input type="date" id="date_posted" name="date_posted">
+            </div>
+
+            <div class="input-section">
+                <label for="requirements">Requirements:</label>
+                <textarea id="requirements" name="requirements"
+                    placeholder="Python, SQL, Flask"></textarea>
+            </div>
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="section-container">
+        <h3>Job List</h3>
+        <div class="edit-container">
+
+            {% for job in jobs %}
+                <form class="edit-form" action="/jobs/{{ job.job_id }}/edit" method="post">
+
+                    <div class="input-section">
+                        <label for="company-{{ job.job_id }}">Company:</label>
+                        <select id="company-{{ job.job_id }}" name="company_id" required>
+                            {% for company in companies %}
+                                <option value="{{ company.company_id }}"
+                                    {% if company.company_id == job.company_id %}selected{% endif %}>
+                                    {{ company.company_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="title-{{ job.job_id }}">Job Title:</label>
+                        <input type="text" id="title-{{ job.job_id }}"
+                            name="job_title"
+                            value="{{ job.job_title }}" required>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="type-{{ job.job_id }}">Job Type:</label>
+                        <select id="type-{{ job.job_id }}" name="job_type" required>
+                            {% for type in job_types %}
+                                <option value="{{ type }}"
+                                    {% if job.job_type == type %}selected{% endif %}>
+                                    {{ type }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="min-{{ job.job_id }}">Minimum Salary:</label>
+                        <input type="number" id="min-{{ job.job_id }}"
+                            name="salary_min" min="0"
+                            value="{{ job.salary_min if job.salary_min is not none else '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="max-{{ job.job_id }}">Maximum Salary:</label>
+                        <input type="number" id="max-{{ job.job_id }}"
+                            name="salary_max" min="0"
+                            value="{{ job.salary_max if job.salary_max is not none else '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="url-{{ job.job_id }}">Job URL:</label>
+                        <input type="text" id="url-{{ job.job_id }}"
+                            name="job_url"
+                            value="{{ job.job_url or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="date-{{ job.job_id }}">Posted Date:</label>
+                        <input type="date" id="date-{{ job.job_id }}"
+                            name="date_posted"
+                            value="{{ job.date_posted or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="requirements-{{ job.job_id }}">Requirements:</label>
+                        <textarea id="requirements-{{ job.job_id }}"
+                            name="requirements">{{ job.requirements_text }}</textarea>
+                    </div>
+
+                    <div class="form-edit-buttons">
+                        <a class="delete-button" href="/jobs/{{ job.job_id }}/delete">Delete</a>
+                        <button type="submit">Save Changes</button>
+                    </div>
+
+                </form>
+            {% else %}
+                <p>No jobs listed</p>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</body>
+</html>

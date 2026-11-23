@@ -1,0 +1,138 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Contacts</h1>
+
+    <div class="add-container">
+        <h3>Add New Contact</h3>
+
+        <form class="add-form" action="/contacts/new" method="post">
+            <div class="input-section">
+                <label for="company">Company:</label>
+                <select id="company" name="company_id">
+                    <option value="">Select Company</option>
+                    {% for company in companies %}
+                        <option value="{{ company.company_id }}">
+                            {{ company.company_name }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-section">
+                <label for="contact_name">Contact Name:</label>
+                <input type="text" id="contact_name" name="contact_name" required>
+            </div>
+
+            <div class="input-section">
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title">
+            </div>
+
+            <div class="input-section">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email">
+            </div>
+
+            <div class="input-section">
+                <label for="phone">Phone:</label>
+                <input type="text" id="phone" name="phone">
+            </div>
+
+            <div class="input-section">
+                <label for="linkedin_url">LinkedIn URL:</label>
+                <input type="text" id="linkedin_url" name="linkedin_url">
+            </div>
+
+            <div class="input-section">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes"></textarea>
+            </div>
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="section-container">
+        <h3>Contact List</h3>
+        <div class="edit-container">
+
+            {% for contact in contacts %}
+                <form class="edit-form" action="/contacts/{{ contact.contact_id }}/edit" method="post">
+
+                    <div class="input-section">
+                        <label for="company-{{ contact.contact_id }}">Company:</label>
+                        <select id="company-{{ contact.contact_id }}" name="company_id">
+                            <option value="">Select Company</option>
+                            {% for company in companies %}
+                                <option value="{{ company.company_id }}"
+                                    {% if company.company_id == contact.company_id %}selected{% endif %}>
+                                    {{ company.company_name }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="name-{{ contact.contact_id }}">Contact Name:</label>
+                        <input type="text" id="name-{{ contact.contact_id }}"
+                            name="contact_name"
+                            value="{{ contact.contact_name }}" required>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="title-{{ contact.contact_id }}">Title:</label>
+                        <input type="text" id="title-{{ contact.contact_id }}"
+                            name="title"
+                            value="{{ contact.title or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="email-{{ contact.contact_id }}">Email:</label>
+                        <input type="email" id="email-{{ contact.contact_id }}"
+                            name="email"
+                            value="{{ contact.email or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="phone-{{ contact.contact_id }}">Phone:</label>
+                        <input type="text" id="phone-{{ contact.contact_id }}"
+                            name="phone"
+                            value="{{ contact.phone or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="linkedin-{{ contact.contact_id }}">LinkedIn URL:</label>
+                        <input type="text" id="linkedin-{{ contact.contact_id }}"
+                            name="linkedin_url"
+                            value="{{ contact.linkedin_url or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="notes-{{ contact.contact_id }}">Notes:</label>
+                        <textarea id="notes-{{ contact.contact_id }}"
+                            name="notes">{{ contact.notes or '' }}</textarea>
+                    </div>
+
+                    <div class="form-edit-buttons">
+                        <a class="delete-button" href="/contacts/{{ contact.contact_id }}/delete">Delete</a>
+                        <button type="submit">Save Changes</button>
+                    </div>
+
+                </form>
+            {% else %}
+                <p>No contacts listed</p>
+            {% endfor %}
+
+        </div>
+    </div>
+
+</body>
+</html>
