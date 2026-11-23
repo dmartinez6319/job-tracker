@@ -7,12 +7,109 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    <h1>the companies</h1>
+    <h1>Companies</h1>
 
-    {% for company in companies %}
-        <p>{ {company.company_name} }</p>
-    {% else %}
-        <p>No companies</p>
-    {% endfor %}
+    <div class="add-container">
+        <h3>Add New Company</h3>
+
+        <form class="add-form" action="/companies/new" method="post">
+            <div class="input-section">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="company_name" required>
+            </div>
+
+            <div class="input-section">
+                <label for="industry">Industry:</label>
+                <input type="text" id="industry" name="industry">
+            </div>
+
+            <div class="input-section">
+                <label for="website">Website:</label>
+                <input type="text" id="website" name="website">
+            </div>
+
+            <div class="input-section">
+                <label for="city">City:</label>
+                <input type="text" id="city" name="city">
+            </div>
+
+            <div class="input-section">
+                <label for="state">State:</label>
+                <input type="text" id="state" name="state">
+            </div>
+
+            <div class="input-section">
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes"></textarea>
+            </div>
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="section-container">
+        <h3>Company List</h3>
+        <div class="edit-container">
+
+            {% for company in companies %}
+                <form edit-form action="/companies/{{ company.company_id }}/edit" method="post">
+
+                    <div class="input-section">
+                        <label for="name-{{ company.company_id }}">Company Name:</label>
+                        <input type="text" id="name-{{ company.company_id }}"
+                            name="company_name"
+                            value="{{ company.company_name }}" required>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="industry-{{ company.company_id }}">Industry:</label>
+                        <input type="text" id="industry-{{ company.company_id }}"
+                            name="industry"
+                            value="{{ company.industry or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="website-{{ company.company_id }}">Website:</label>
+                        <input type="text" id="website-{{ company.company_id }}"
+                            name="website"
+                            value="{{ company.website or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="city-{{ company.company_id }}">City:</label>
+                        <input type="text" id="city-{{ company.company_id }}"
+                            name="city"
+                            value="{{ company.city or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="state-{{ company.company_id }}">State:</label>
+                        <input type="text" id="state-{{ company.company_id }}"
+                            name="state"
+                            value="{{ company.state or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="notes-{{ company.company_id }}">Notes:</label>
+                        <input type="text" id="notes-{{ company.company_id }}"
+                            name="notes"
+                            value="{{ company.notes or '' }}">
+                    </div>
+
+                    <div class="form-edit-buttons">
+                        <a class="delete-button" href="/companies/{{ company.company_id }}/delete">Delete</a>
+                        <button type="submit">Save Changes</button>
+                    </div>
+
+
+
+                </form>
+            {% else %}
+                <p>No companies listed</p>
+            {% endfor %}
+
+        </div>
+    </div>
+
 </body>
 </html>
