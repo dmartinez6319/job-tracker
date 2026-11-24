@@ -167,6 +167,24 @@ def edit_company(id):
 
     return redirect(url_for("companies"))
 
+@app.route("/companies/<int:id>/delete")
+def delete_company(id):
+    conn = get_db()
+    cursor = conn.cursor()
+
+    try: 
+        cursor.execute(
+        "DELETE FROM companies WHERE company_id = %s",
+        (id,)
+        )
+        conn.commit()
+    except Exception:
+        conn.rollback()
+        raise
+    finally:
+        cursor.close()
+        conn.close()
+    return redirect(url_for("companies"))
 
 
 @app.route("/jobs/<int:id>/delete")
