@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Job Match</h1>
+
+    <div class="add-container">
+        <h3>Find Matching Jobs</h3>
+
+        <form class="add-form" action="/job-match" method="post">
+            <div class="input-section">
+                <label for="skills">Your Skills:</label>
+                <textarea id="skills" name="skills"
+                    placeholder="Python, SQL, Flask" required>{{ skills }}</textarea>
+            </div>
+
+            <button type="submit">Find Matches</button>
+        </form>
+    </div>
+
+    <div class="section-container">
+        <h3>Job Matches</h3>
+
+        <div class="edit-container">
+            {% for job in matches %}
+                <div class="match-card">
+                    <h3>{{ job.job_title }}</h3>
+
+                    <p>Company: {{ job.company_name or 'No Company' }}</p>
+                    <p>Job Type: {{ job.job_type or 'Not specified' }}</p>
+                    <p>Match: {{ job.percentage }}%</p>
+                    <p>Required Skills: {{ job.required_skills }}</p>
+                    <p>Matching Skills: {{ job.matching_skills }}</p>
+
+                </div>
+            {% else %}
+                <p>No matches yet</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <a href="/">Back to Dashboard</a>
+</body>
+</html>

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,69 @@
     <link rel="stylesheet" href="static/style.css">
 </head>
 <body>
-    test
+    <div class="dashboard-container">
+        <h1>Dashboard</h1>
+
+        <div class="dashboard-nav">
+            <a href="/applications">Applications</a>
+            <a href="/contacts">Contacts</a>
+            <a href="/companies">Companies</a>
+            <a href="/jobs">Jobs</a>
+        </div>
+
+        <div class="job-match-container">
+            <a class="job-match-button" href="/job-match">Job Match</a>
+        </div>
+
+        <div class="dashboard-stats">
+            <h3>Overview</h3>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Total Jobs</h3>
+                    <p>{{ total_jobs }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Total Companies</h3>
+                    <p>{{ total_companies }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Total Applications</h3>
+                    <p>{{ total_applications }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Total Contacts</h3>
+                    <p>{{ total_contacts }}</p>
+                </div>
+            </div>
+
+            <h3>Application Status</h3>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3>Applied</h3>
+                    <p>{{ total_applied }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Interviews</h3>
+                    <p>{{ total_interviews }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Offers</h3>
+                    <p>{{ total_offers }}</p>
+                </div>
+
+                <div class="stat-card">
+                    <h3>Rejected</h3>
+                    <p>{{ total_rejected }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,0 +1,165 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Tracker</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <h1>Applications</h1>
+
+    <div class="add-container">
+        <h3>Add New Application</h3>
+
+        <form class="add-form" action="/applications/new" method="post">
+            <div class="input-section">
+                <label for="job_id">Job:</label>
+                <select id="job_id" name="job_id" required>
+                    <option value="">Select Job</option>
+                    {% for job in jobs %}
+                        <option value="{{ job.job_id }}">
+                            {{ job.job_title }} - {{ job.company_name or 'No Company' }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-section">
+                <label for="application_date">Application Date:</label>
+                <input type="date" id="application_date"
+                       name="application_date" required>
+            </div>
+
+            <div class="input-section">
+                <label for="status">Status:</label>
+                <select id="status" name="status">
+                    {% for status in statuses %}
+                        <option value="{{ status }}">{{ status }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="input-section">
+                <label for="resume_version">Resume Version:</label>
+                <input type="text" id="resume_version"
+                       name="resume_version"
+                       placeholder="Resume V1">
+            </div>
+
+            <div class="input-section">
+                <label for="cover_letter_sent">Cover Letter Sent:</label>
+                <input type="checkbox" id="cover_letter_sent"
+                       name="cover_letter_sent" value="1">
+            </div>
+
+            <div class="input-section">
+                <label for="interview_date">Interview Date:</label>
+                <input type="date" id="interview_date" name="interview_date">
+            </div>
+
+            <div class="input-section">
+                <label for="interviewer">Interviewer:</label>
+                <input type="text" id="interviewer" name="interviewer">
+            </div>
+
+            <div class="input-section">
+                <label for="interview_notes">Interview Notes:</label>
+                <textarea id="interview_notes" name="interview_notes"></textarea>
+            </div>
+
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <div class="section-container">
+        <h3>Application List</h3>
+
+        <div class="edit-container">
+            {% for application in applications %}
+                <form class="edit-form"
+                      action="/applications/{{ application.application_id }}/edit"
+                      method="post">
+
+                    <div class="input-section">
+                        <label for="job-{{ application.application_id }}">Job:</label>
+                        <select id="job-{{ application.application_id }}"
+                                name="job_id" required>
+                            {% for job in jobs %}
+                                <option value="{{ job.job_id }}"
+                                    {% if job.job_id == application.job_id %}selected{% endif %}>
+                                    {{ job.job_title }} - {{ job.company_name or 'No Company' }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="date-{{ application.application_id }}">Application Date:</label>
+                        <input type="date" id="date-{{ application.application_id }}"
+                               name="application_date"
+                               value="{{ application.application_date }}" required>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="status-{{ application.application_id }}">Status:</label>
+                        <select id="status-{{ application.application_id }}" name="status">
+                            {% for status in statuses %}
+                                <option value="{{ status }}"
+                                    {% if application.status == status %}selected{% endif %}>
+                                    {{ status }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="resume-{{ application.application_id }}">Resume Version:</label>
+                        <input type="text" id="resume-{{ application.application_id }}"
+                               name="resume_version"
+                               value="{{ application.resume_version or '' }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="cover-{{ application.application_id }}">Cover Letter Sent:</label>
+                        <input type="checkbox" id="cover-{{ application.application_id }}"
+                               name="cover_letter_sent" value="1"
+                               {% if application.cover_letter_sent %}checked{% endif %}>
+                    </div>
+
+                    <div class="input-section">
+                        <label for="interview-date-{{ application.application_id }}">Interview Date:</label>
+                        <input type="date" id="interview-date-{{ application.application_id }}"
+                               name="interview_date"
+                               value="{{ application.interview_date }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="interviewer-{{ application.application_id }}">Interviewer:</label>
+                        <input type="text" id="interviewer-{{ application.application_id }}"
+                               name="interviewer"
+                               value="{{ application.interviewer }}">
+                    </div>
+
+                    <div class="input-section">
+                        <label for="notes-{{ application.application_id }}">Interview Notes:</label>
+                        <textarea id="notes-{{ application.application_id }}"
+                                  name="interview_notes">{{ application.interview_notes }}</textarea>
+                    </div>
+
+                    <div class="form-edit-buttons">
+                        <a class="delete-button"
+                           href="/applications/{{ application.application_id }}/delete">Delete</a>
+                        <button type="submit">Save Changes</button>
+                    </div>
+
+                </form>
+            {% else %}
+                <p>No applications listed</p>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>
