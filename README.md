@@ -6,6 +6,16 @@
 mysql -u root -p < schema.sql
 ```
 
+## Setup env variables ##
+1. create a .env file and input mySql credentials
+```bash
+host = localhost
+port = 3306
+user = root
+password = mysql password here
+name = job_tracker
+```
+
 ## Backend Setup ##
 1. Setup python virtual environment
 ```bash
