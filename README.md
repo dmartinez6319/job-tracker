@@ -27,7 +27,7 @@ source .venv/Scripts/activate
 ```
 3. install flask and mysql dependecies
 ```bash
-python -m pip install flask mysql-connector-python python-dotenv
+python -m pip install -r requirements.txt
 ```
 4. start the server
 ```bash
